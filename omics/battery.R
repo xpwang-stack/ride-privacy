@@ -1,8 +1,11 @@
 # Omics parity battery: run the same snippets here and on the desktop, then diff.
 # Written by scripts/omics_parity/generate_battery.py; do not edit by hand.
 options(digits = 7, warn = 1)
-outdir <- file.path(getwd(), "omics-out")
-dir.create(outdir, showWarnings = FALSE)
+# Write next to the workspace rather than inside it: on the device the workspace
+# directory is not readable by the shell that pulls the report, while its parent
+# (the app files directory) is.
+outdir <- file.path(dirname(getwd()), "omics", "out")
+dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 report <- file.path(outdir, "report.tsv")
 writeLines(character(0), report)
 
