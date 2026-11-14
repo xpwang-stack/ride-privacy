@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIDE 隐私政策</title>
+<style>
+:root { color-scheme: light dark; }
+body { margin: 0 auto; max-width: 52rem; padding: 2rem 1.25rem 4rem;
+       font: 16px/1.75 -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+h1 { font-size: 1.7rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.25rem; margin: 2rem 0 0.5rem; padding-bottom: .25rem; border-bottom: 1px solid #d9dee7; }
+h3 { font-size: 1.05rem; margin: 1.5rem 0 0.4rem; }
+p, li { margin: .45rem 0; }
+code { padding: .1rem .3rem; border-radius: 4px; background: #f0f2f6; }
+.todo { background: #fff4d6; border-left: 4px solid #d99400; padding: .6rem .9rem; margin: 1rem 0; }
+.meta { color: #5b6472; font-size: .92rem; }
+table { border-collapse: collapse; width: 100%; margin: .8rem 0; }
+th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; vertical-align: top; }
+@media print { body { max-width: none; } .todo { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<h1>RIDE 隐私政策</h1>
+<p><strong>状态：已定稿，待发布。</strong> 运营主体、联系方式、对外 URL、生效日期与保留期限均已确认（见下），发布动作由持有人执行（把本文件的渲染结果放到 <code>policyUrl</code> 指向的公网地址）。</p>
+<p><strong>用途</strong>：作为 RIDE（HarmonyOS 2in1 应用，包名 <code>com.harmonyr.ide</code>）在华为应用市场（AppGallery）上架时需提交的隐私政策正文底稿，并作为 AGC「隐私标签」填写的内部依据。</p>
+<p><strong>生成依据</strong>：本文件不是通用模板，条文所描述的行为均来自对当前工作目录源码与已签名候选包的只读检查，主要依据：</p>
+<ul>
+<li><code>entry/src/main/module.json5</code>（<strong>声明 1 个系统级权限</strong> <code>ohos.permission.INTERNET</code>，用于 R 包源码下载；无用户授权类权限）</li>
+<li><code>AppScope/app.json5</code>（bundleName <code>com.harmonyr.ide</code>、versionCode 270、versionName 0.0.270）</li>
+<li>候选包 <code>validation/r-desktop-270-networkkeep-20261114-20261114/entry-configure-probe-signed.hap</code> 内的 <code>module.json</code>（只读解包核对：<code>requestPermissions</code> 仅 <code>ohos.permission.INTERNET</code> 一项）</li>
+<li>全部 <code>entry/src/main/ets</code> 源文件的检索结果（无 <code>@ohos.net.*</code>、无 <code>@kit.NetworkKit</code>、无账号/统计 SDK 导入；联网只发生在 R 侧下载，见第四节）</li>
+<li><code>entry/src/main/r/package_repository.R</code>（SHA256 <code>01e295ce…019038</code>，实现了 R 侧 HTTPS 下载路径）</li>
+<li><code>entry/src/main/ets/workspace/FeedbackDialog.ets</code>、<code>Feedback.ets</code>、<code>WorkbenchPreferences.ets</code></li>
+<li><code>entry/src/main/resources/rawfile/licenses/r-license-notices.json</code>（SHA256 <code>f5435618…100c8b</code>，2,920,774 字节）</li>
+</ul>
+<p>本页内容已由运营者确认，生效日期与联系方式见下。</p>
+<p>1. ~~运营主体名称、联系邮箱、隐私政策对外 URL~~——<strong>已填</strong>：见下；</p>
+<p>2. ~~是否保留内置反馈邮箱~~——保留，仅作为用户主动发信时的收件地址，不做自动收集；</p>
+<p>3. ~~是否声明 <code>ohos.permission.INTERNET</code> 并因此保留/删除「R 包仓库下载」功能~~——<strong>决定保留（keep）</strong>：声明 INTERNET 权限并启用下载入口，第四、六节按此表述；</p>
+<p>4. ~~应用内是否需要展示隐私政策弹窗与「同意」流程~~——<strong>已实现并已实测</strong>：<code>entry/src/main/ets/pages/PrivacyConsent.ets</code>，首屏由 <code>privacyGateDecision()</code> 决定，0.0.270 净安装实测见 <code>validation/r-package-production-20261021/privacy-gate/result.json</code>；</p>
+<p>5. 应用是否面向未成年人、内容分级档次；</p>
+<p>6. 数据保留期限与删除方式的具体承诺口径；</p>
+<p>7. 全部条文的法律审阅。</p>
+<p>本文件不含任何未经核实的能力描述；仍无法用机器证据覆盖的条目，逐条列在附录 B 的「仍未核实」里。</p>
+<p>---</p>
+<h2>RIDE 隐私政策</h2>
+<p><strong>生效日期</strong>：2026-11-20</p>
+<p><strong>版本</strong>：适用于 RIDE 0.0.270（versionCode 270）</p>
+<p><strong>运营者</strong>：王枭鹏（个人开发者）</p>
+<p><strong>联系方式</strong>：rideprivacy@163.com（隐私政策：https://xpwang-stack.github.io/ride-privacy/）</p>
+<h3>一、适用范围</h3>
+<p>本政策适用于在 HarmonyOS PC/2in1 设备上安装和使用的 RIDE 应用（包名 <code>com.harmonyr.ide</code>）。RIDE 是一个本地运行的 R 语言集成开发环境：它在你的设备上提供一个代码编辑器、R 控制台、对象浏览器、结果表格与图形预览，并随应用内置一套 GNU R 4.6.1（ARM64）运行库与一组预装 R 包。</p>
+<p><strong>RIDE 不提供账号系统。</strong> 使用 RIDE 不需要注册、登录或绑定手机号；源码中未发现账号登录、云同步、统计分析或广告 SDK。</p>
+<h3>二、我们不收集的信息</h3>
+<p>基于对当前版本的源码检查，RIDE <strong>不</strong>收集、不上传下列信息：</p>
+<ul>
+<li>设备标识符（IMEI、SN、OAID、ODID、MAC、芯片 ID 等）：源码中未发现任何设备标识读取调用。</li>
+<li>位置信息、通讯录、通话记录、短信、日历、相册、麦克风、相机：应用未申请任何此类权限（详见第六节）；唯一的权限是系统级 <code>ohos.permission.INTERNET</code>，仅用于你主动发起的 R 包源码下载。</li>
+<li>你的 R 脚本内容、数据文件内容、分析结果：不上传到任何服务器。</li>
+<li>崩溃日志与使用统计：应用未集成第三方统计或崩溃上报 SDK；诊断输出写入系统日志（见第四节），不上传。</li>
+</ul>
+<p>说明：上表描述的是<strong>应用自身代码</strong>的行为。RIDE 随包分发的 R 运行库与 R 包属于第三方开源软件，其能力边界见第六节；其中 R 侧的仓库下载功能属于<strong>由你主动发起</strong>的联网行为，见第五节。</p>
+<h3>三、RIDE 在你的设备上读写什么</h3>
+<p>RIDE 只在应用自身的私有目录（HarmonyOS 应用沙箱内的 <code>filesDir</code> 与其子目录）内读写数据。源码中所有文件操作都以 <code>context.filesDir</code> 为根（例如 <code>Console.ets</code> 中 <code>workspacePath = ${context.filesDir}/workspace</code>）。</p>
+<table>
+<tr><th>数据类别</th><th>具体内容</th><th>存放位置</th><th>用途</th></tr>
+<tr><td>你的脚本与项目文件</td><td>你在编辑器中新建/保存的 <code>.R</code> 脚本、项目目录结构与项目元数据</td><td>应用私有目录下的工作区</td><td>提供编辑、运行、恢复功能</td></tr>
+<tr><td>你导入的数据文件</td><td>你通过系统文件选择器主动选取的数据（CSV、H5/H5AD、FASTQ 等）被复制/读取到工作区</td><td>应用私有目录下的工作区</td><td>供 R 会话分析</td></tr>
+<tr><td>R 运行库与预装包</td><td>GNU R 4.6.1 运行库、预装 R 包及其许可证文本</td><td>应用私有目录（首次运行时从安装包释放）</td><td>提供 R 运行环境</td></tr>
+<tr><td>分析结果与图形</td><td>R 输出的表格、图像、导出文件</td><td>应用私有目录下的工作区/结果目录</td><td>结果预览与导出</td></tr>
+<tr><td>应用偏好设置</td><td>窗口布局、标签页、快捷键、外观主题、编辑器选项、项目工作台状态、未关闭的编辑缓冲、反馈草稿</td><td>HarmonyOS <code>preferences</code>（应用私有键值存储）</td><td>恢复上次使用状态</td></tr>
+<tr><td>诊断日志</td><td>操作阶段标记、字节计数、错误原因等文本，通过系统 <code>hilog</code> 写入</td><td>系统日志（非应用私有目录）</td><td>开发与故障诊断</td></tr>
+</table>
+<p><strong>关于系统文件选择器</strong>：当你导入或导出文件时，RIDE 通过 HarmonyOS 系统文件选择器（DocumentViewPicker）由你亲自选定文件/保存位置，应用只获得你所选文件的访问授权，不会扫描你的其他目录。</p>
+<p><strong>关于剪贴板</strong>：RIDE 只在你点击「复制」类按钮时<strong>写入</strong>剪贴板（例如复制对象详情、复制反馈内容）。源码中未发现读取剪贴板内容的调用。</p>
+<h3>四、数据是否离开设备</h3>
+<h3>4.1 应用自身的代码路径</h3>
+<ul>
+<li>ArkTS 层（全部 <code>.ets</code> 文件）：<strong>没有</strong> <code>@ohos.net.*</code> / <code>@kit.NetworkKit</code> 导入，没有 HTTP 请求、文件上传或远程上报代码。</li>
+<li>候选包 <code>module.json</code> 中 <code>requestPermissions</code> 只含一项：<code>ohos.permission.INTERNET</code>（系统授予，无运行时弹窗）；没有相机、麦克风、位置、通讯录、存储读写等用户授权权限。</li>
+</ul>
+<h3>4.2 R 侧的仓库下载能力（已启用）</h3>
+<p>RIDE 内置的 R 脚本 <code>package_repository.R</code> 实现了一条<strong>向 HTTPS 仓库下载 R 包源码</strong>的路径：它按你提供的仓库地址请求包索引，并按包名下载 <code>*.tar.gz</code> 源码包。该实现带有明确约束：仅接受 <code>https://</code> 地址、不跟随重定向、单包与总量有字节上限、下载结果必须与声明的摘要一致、且只作为「数据」保存（<code>installAuthorized=FALSE</code>、<code>sourceExecuted=FALSE</code>）——下载本身不会执行任何代码。</p>
+<p><strong>这条路径只在你主动操作时发生</strong>：在「R 包」面板输入包名、点击「下载并检查来源」，应用才会连接你填入的 HTTPS 源码仓库（输入框默认为清华 TUNA 的 CRAN 镜像）。请求内容只有包名与仓库地址；<strong>不会</strong>附带你的脚本、数据、分析结果、设备标识或其他任何本地内容；应用不记录你请求了哪些包、也不记录请求内容，本地只保留下载所得的源码包与来源核验记录。</p>
+<h3>4.2.1 本机下载记录（2026-11-14 持有人决定）</h3>
+<p>应用在沙箱内保留最近 20 次下载尝试，每条只有包名、镜像主机、时间与成功与否（失败时附一句原因），用于在 R 包面板告诉用户上次结果。不记录请求内容、响应内容、URL 路径、凭据或任何设备标识；该文件不上传，随应用数据一起删除。默认镜像为清华 TUNA 与中科大两个预设，也允许用户自行填写镜像，但只接受 HTTPS 且不含账号、查询或片段。</p>
+<h3>4.3 当前发布配置下的实测结论</h3>
+<p>0.0.270 起，发布包声明 <code>ohos.permission.INTERNET</code> 并启用「下载并检查来源」入口。联网行为以真机实测记录为准：<code>validation/r-package-production-20261021/network-behaviour/result.json</code>（文件内的 <code>version</code> 字段标明测得的是哪个候选，<code>boundaries</code> 字段说明该结论只覆盖那一台设备与那一个候选）。同一套脚本在 0.0.270（未声明权限）上测得应用内 <code>curl::has_internet()</code> 为 <code>FALSE</code>，用来证明探针确实能区分「能联网」与「不能联网」两种状态。</p>
+<p>不使用下载入口时，RIDE 的全部功能（编辑器、控制台、对象浏览器、绘图、调试、项目、导出）都不需要网络。</p>
+<h3>五、第三方组件</h3>
+<p>1. <strong>GNU R 4.6.1 与预装 R 包</strong>：RIDE 随包分发 GNU R 4.6.1 本体和 499 条 R 包记录（顶层包与组件合并统计，去重后 499 个包名，详见 <code>third-party-licenses.md</code>）。这些是第三方开源软件，其许可证文本随包提供在应用内「第三方许可证」页面，可通过 <code>resources/rawfile/licenses/r-license-notices.json</code> 读取。</p>
+<p>2. <strong>原生依赖库</strong>（如 Cairo、FreeType、Fontconfig、HDF5、libcurl、Mbed TLS、zlib、bzip2、XZ、PCRE2）随 R 运行库提供，源码与许可证义务见 <code>third-party-licenses.md</code>。</p>
+<p>3. <strong>无第三方 SDK 采集</strong>：<code>oh-package.json5</code>（根与 entry）未引入任何商业 SDK；未发现广告、推送、统计、崩溃上报、热修复等第三方库。</p>
+<h3>六、权限说明</h3>
+<p>当前版本声明<strong>一个</strong>系统权限：</p>
+<table>
+<tr><th>权限</th><th>类型</th><th>用途</th><th>触发时机</th></tr>
+<tr><td><code>ohos.permission.INTERNET</code></td><td>系统授予（无运行时弹窗）</td><td>从你指定的 HTTPS 仓库下载你主动请求的 R 包源码</td><td>只有在你点击「下载并检查来源」时</td></tr>
+</table>
+<p>除此之外不申请任何权限：</p>
+<ul>
+<li>不申请相机、麦克风、位置、通讯录、日历、相册、存储读写等用户授权权限，因此使用过程中不会弹出权限申请；</li>
+<li>导入/导出文件完全依赖系统文件选择器（DocumentViewPicker）由你主动授权；</li>
+<li>你可以在系统「应用信息」中关闭该应用的网络权限（部分系统版本支持按应用禁用联网），关闭后下载入口会失败，其余功能不受影响。</li>
+</ul>
+<h3>七、未成年人保护</h3>
+<p>RIDE 是面向科研与数据分析用户的开发工具，不面向未成年人设计，不包含社交、支付、广告或内容分发功能。若持有人决定在应用商店中把目标受众包含未成年人，当前受众定位：不限年龄段，面向科研、教学与数据分析场景的代码工具用户；若后续调整受众，将同步更新分级与本政策。</p>
+<h3>八、你的权利</h3>
+<p>由于 RIDE 不建立服务器端账号、不上传你的数据，你的绝大部分个人信息处理行为都发生在你设备本地，你可以直接：</p>
+<ul>
+<li><strong>查看</strong>：应用内工作区、项目、结果文件均可在应用界面中查看；</li>
+<li><strong>删除</strong>：在应用内删除脚本/项目/结果，或通过系统「应用信息 → 存储 → 清除数据」删除全部本机数据，或卸载应用；</li>
+<li><strong>导出</strong>：通过系统保存对话框把结果与脚本导出到你选择的位置；</li>
+<li><strong>撤回</strong>：本版本无权限授权可撤回；若后续版本新增权限，可在系统设置中随时关闭。</li>
+</ul>
+<p>如你对本政策或数据处理有疑问，可通过以下方式联系运营者：rideprivacy@163.com。</p>
+<h3>九、数据安全</h3>
+<ul>
+<li>所有用户数据保存在应用沙箱私有目录，其访问受 HarmonyOS 应用沙箱机制约束；</li>
+<li>应用不使用明文凭据，不保存账号密码；</li>
+<li>应用内置的原生程序与 R 运行库随应用签名一起分发；</li>
+<li>诊断日志仅写入系统日志，不包含你的脚本或数据内容（源码中日志以阶段标记、计数与错误原因为主）。</li>
+</ul>
+<h3>十、本政策的变更</h3>
+<p>当 RIDE 的功能、处理的信息类型或权限声明发生变化时，本政策将更新，并在应用内或商店更新说明中告知。重大变更将在生效前以显著方式提示。</p>
+<h3>十一、联系与投诉</h3>
+<ul>
+<li>运营者：王枭鹏（个人开发者）</li>
+<li>联系邮箱：rideprivacy@163.com</li>
+<li>响应时限：15 个工作日内</li>
+</ul>
+<p>---</p>
+<h2>附录 A：与 AGC「隐私标签」的对应建议（供填写时参考）</h2>
+<p>以下为依据本政策推出的建议填法，<strong>最终以 AGC 后台选项与持有人判断为准</strong>：</p>
+<table>
+<tr><th>AGC 业务场景</th><th>是否勾选</th><th>依据</th></tr>
+<tr><td>应用功能</td><td>需进一步判断</td><td>本地文件读写属于应用功能；若定稿声明「不收集、不上传」，则按「不涉及收集用户信息数据」处理</td></tr>
+<tr><td>产品个性化</td><td>否</td><td>无个性化推荐逻辑</td></tr>
+<tr><td>分析</td><td>否</td><td>未集成统计 SDK</td></tr>
+<tr><td>广告与营销</td><td>否</td><td>无广告 SDK、无营销</td></tr>
+<tr><td>向第三方披露</td><td>否</td><td>无服务器与三方共享</td></tr>
+<tr><td>跨境传输</td><td>否</td><td>无上传</td></tr>
+<tr><td>其他用途</td><td>否</td><td>—</td></tr>
+</table>
+<p>「R 仓库下载」已保留并在隐私政策第四节写明「向你指定的仓库发起 HTTPS 请求」。它是应用向<strong>你指定的服务器</strong>取回公开的源码包，不含任何用户个人信息，因此不构成向第三方披露个人信息，也不构成跨境传输（默认镜像位于境内；若你自行改填境外地址，传输由你本人发起）。AGC 隐私标签中需勾选「网络访问/应用功能」相关项，并在「其他说明」注明「仅用于下载用户主动请求的 R 包源码，不上传任何本地数据」。</p>
+<p>数据项层面（若 AGC 要求按项勾选）建议：<strong>均不勾选</strong>。特别注意不要勾选「应用运行日志」——本应用的 hilog 输出不离开设备、不上报。</p>
+<h2>附录 B：本次核实方式与未核实项</h2>
+<p><strong>已核实（读源码/解包核对）</strong>：</p>
+<table>
+<tr><th>结论</th><th>证据</th></tr>
+<tr><td>只声明 <code>ohos.permission.INTERNET</code></td><td><code>entry/src/main/module.json5</code> 的 <code>requestPermissions</code> 仅一项；候选包 <code>module.json</code> 同；<code>scripts/verify-distribution-config.py</code> 与网络面检查在门禁中复核</td></tr>
+<tr><td>ArkTS 层无网络调用</td><td>对 106 个 <code>.ets</code> 检索 <code>@ohos.net.</code>、<code>@kit.NetworkKit</code>、<code>http.createHttp</code> 等，无匹配</td></tr>
+<tr><td>内置 R 的联网能力随权限变化</td><td>0.0.269（未声明权限）应用内 <code>curl::has_internet()</code> → <code>FALSE</code>（对照）；0.0.270 声明权限并启用下载后实测 <code>hasInternet=true</code>、权限数 1，记录见 <code>validation/r-package-production-20261021/network-behaviour/result.json</code></td></tr>
+<tr><td>无账号/统计/广告 SDK</td><td>检索 <code>AccountKit</code>、<code>login</code>、<code>analytics</code>、<code>umeng</code> 等；<code>oh-package.json5</code> 依赖为空</td></tr>
+<tr><td>数据目录为应用私有 <code>filesDir</code></td><td><code>Console.ets</code>、<code>WorkspaceFiles.ets</code>、<code>ProjectFiles.ets</code>、<code>ResultFiles.ets</code> 构造参数均为 <code>context.filesDir</code></td></tr>
+<tr><td>偏好设置存本地</td><td><code>WorkbenchPreferences.ets</code>、<code>FeedbackDialog.ets</code> 使用 <code>preferences</code></td></tr>
+<tr><td>文件导入导出经系统选择器</td><td><code>Console.ets</code> 中 <code>picker.DocumentViewPicker</code> 的 <code>select</code>/<code>save</code></td></tr>
+<tr><td>剪贴板仅写入</td><td><code>Console.ets</code>、<code>FeedbackDialog.ets</code> 仅 <code>setData</code>，无读取</td></tr>
+<tr><td>R 侧存在 HTTPS 下载实现</td><td><code>package_repository.R</code> 中 <code>curl::curl_fetch_stream</code> + <code>https://</code> 校验</td></tr>
+<tr><td>无设备标识读取</td><td>检索 <code>deviceInfo</code>、<code>getUdid</code>、<code>oaid</code>、<code>ODID</code>、<code>getDeviceId</code>，无匹配</td></tr>
+</table>
+<p><strong>未核实（必须在定稿前处理）</strong>：</p>
+<p>1. ~~保留/删除联网能力~~——<strong>已决定保留（keep）并已实现</strong>：声明 INTERNET 权限、启用下载入口、政策与隐私标签同步更新。</p>
+<p>2. ~~无网络权限时 R 仓库下载是否真的失败~~ 已实测：应用内 <code>curl::has_internet()</code> 返回 <code>FALSE</code>（0.0.270 发布候选，2026-11-13）；启用权限后的可联网状态见 <code>network-behaviour</code> 证据。</p>
+<p>3. ~~应用内是否已有隐私政策弹窗与同意门禁~~——<strong>已实现</strong>（<code>PrivacyConsent.ets</code>：不同意 / 返回阅读 / 同意并继续 / 退出应用四个控件，<code>privacy-consent-v3</code> 记录同意状态（政策文本升版后重新征询）），并在 0.0.270 净安装上实测通过，详见 <code>docs/release/privacy-gate.md</code>。仍需持有人确认的是<strong>政策文本本身</strong>（第 8 项的占位符）。</p>
+<p>4. ~~运营主体、联系方式、政策 URL、数据保留期限等法律信息~~——<strong>已确认</strong>：运营主体 王枭鹏（个人开发者）、</p>
+<p>联系邮箱 rideprivacy@163.com、政策 URL &lt;https://xpwang-stack.github.io/ride-privacy/&gt;、生效日期 2026-11-20、</p>
+<p>数据保留期限为「保存在应用私有目录，直到你删除文件或卸载应用」。取值见 <code>docs/release/values.json</code>。</p>
+<p>5. 反馈邮件功能的实际投递方（<code>ohos.want.action.sendToData</code> 拉起系统邮件应用，实际发送由用户在该应用中完成，未在真机验证）。</p>
+<p>6. hilog 输出在正式发布包中是否可被系统工具读取的级别设置（本文件只声明「不上传」）。</p>
+<p><strong>历史基线（不得覆盖）</strong>：<code>validation/r-desktop-222-independent-frame-paging1-20261105/</code> 是最早的冻结候选，任何材料更新都不修改它；当前候选见 <code>docs/release/CURRENT-CANDIDATE.txt</code>。</p>
+<hr>
+<p class="meta">本文件由 scripts/render-release-materials.py 从 docs/release/privacy-policy-draft.md 生成，
+不含外部资源、脚本或跟踪代码；每次草稿变更后需重新生成。</p>
+</body>
+</html>
