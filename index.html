@@ -28,7 +28,7 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 <p><strong>生成依据</strong>：本文件不是通用模板，条文所描述的行为均来自对当前工作目录源码与已签名候选包的只读检查，主要依据：</p>
 <ul>
 <li><code>entry/src/main/module.json5</code>（<strong>声明 1 个系统级权限</strong> <code>ohos.permission.INTERNET</code>，用于 R 包源码下载；无用户授权类权限）</li>
-<li><code>AppScope/app.json5</code>（bundleName <code>com.harmonyr.ide</code>、versionCode 270、versionName 0.0.270）</li>
+<li><code>AppScope/app.json5</code>（bundleName <code>com.harmonyr.ide</code>、versionCode 270、versionName 0.0.279）</li>
 <li>候选包 <code>validation/r-desktop-270-networkkeep-20261114-20261114/entry-configure-probe-signed.hap</code> 内的 <code>module.json</code>（只读解包核对：<code>requestPermissions</code> 仅 <code>ohos.permission.INTERNET</code> 一项）</li>
 <li>全部 <code>entry/src/main/ets</code> 源文件的检索结果（无 <code>@ohos.net.*</code>、无 <code>@kit.NetworkKit</code>、无账号/统计 SDK 导入；联网只发生在 R 侧下载，见第四节）</li>
 <li><code>entry/src/main/r/package_repository.R</code>（SHA256 <code>01e295ce…019038</code>，实现了 R 侧 HTTPS 下载路径）</li>
@@ -39,7 +39,7 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 <p>1. ~~运营主体名称、联系邮箱、隐私政策对外 URL~~——<strong>已填</strong>：见下；</p>
 <p>2. ~~是否保留内置反馈邮箱~~——保留，仅作为用户主动发信时的收件地址，不做自动收集；</p>
 <p>3. ~~是否声明 <code>ohos.permission.INTERNET</code> 并因此保留/删除「R 包仓库下载」功能~~——<strong>决定保留（keep）</strong>：声明 INTERNET 权限并启用下载入口，第四、六节按此表述；</p>
-<p>4. ~~应用内是否需要展示隐私政策弹窗与「同意」流程~~——<strong>已实现并已实测</strong>：<code>entry/src/main/ets/pages/PrivacyConsent.ets</code>，首屏由 <code>privacyGateDecision()</code> 决定，0.0.270 净安装实测见 <code>validation/r-package-production-20261021/privacy-gate/result.json</code>；</p>
+<p>4. ~~应用内是否需要展示隐私政策弹窗与「同意」流程~~——<strong>已实现并已实测</strong>：<code>entry/src/main/ets/pages/PrivacyConsent.ets</code>，首屏由 <code>privacyGateDecision()</code> 决定，0.0.279 净安装实测见 <code>validation/r-package-production-20261021/privacy-gate/result.json</code>；</p>
 <p>5. 应用是否面向未成年人、内容分级档次；</p>
 <p>6. 数据保留期限与删除方式的具体承诺口径；</p>
 <p>7. 全部条文的法律审阅。</p>
@@ -47,7 +47,8 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 <p>---</p>
 <h2>RIDE 隐私政策</h2>
 <p><strong>生效日期</strong>：2026-11-20</p>
-<p><strong>版本</strong>：适用于 RIDE 0.0.270（versionCode 270）</p>
+<p><strong>版本</strong>：适用于 RIDE 0.0.300（versionCode 300）</p>
+<p><strong>政策版本 3</strong>（2026-11-15 修订：补入本机下载记录条目与 GPL 源码获取入口）</p>
 <p><strong>运营者</strong>：王枭鹏（个人开发者）</p>
 <p><strong>联系方式</strong>：rideprivacy@163.com（隐私政策：https://xpwang-stack.github.io/ride-privacy/）</p>
 <h3>一、适用范围</h3>
@@ -84,10 +85,10 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 <h3>4.2 R 侧的仓库下载能力（已启用）</h3>
 <p>RIDE 内置的 R 脚本 <code>package_repository.R</code> 实现了一条<strong>向 HTTPS 仓库下载 R 包源码</strong>的路径：它按你提供的仓库地址请求包索引，并按包名下载 <code>*.tar.gz</code> 源码包。该实现带有明确约束：仅接受 <code>https://</code> 地址、不跟随重定向、单包与总量有字节上限、下载结果必须与声明的摘要一致、且只作为「数据」保存（<code>installAuthorized=FALSE</code>、<code>sourceExecuted=FALSE</code>）——下载本身不会执行任何代码。</p>
 <p><strong>这条路径只在你主动操作时发生</strong>：在「R 包」面板输入包名、点击「下载并检查来源」，应用才会连接你填入的 HTTPS 源码仓库（输入框默认为清华 TUNA 的 CRAN 镜像）。请求内容只有包名与仓库地址；<strong>不会</strong>附带你的脚本、数据、分析结果、设备标识或其他任何本地内容；应用不记录你请求了哪些包、也不记录请求内容，本地只保留下载所得的源码包与来源核验记录。</p>
-<h3>4.2.1 本机下载记录（2026-11-14 持有人决定）</h3>
+<h3>4.2.1 本机保留最近 20 次下载尝试记录（2026-11-14 持有人决定）</h3>
 <p>应用在沙箱内保留最近 20 次下载尝试，每条只有包名、镜像主机、时间与成功与否（失败时附一句原因），用于在 R 包面板告诉用户上次结果。不记录请求内容、响应内容、URL 路径、凭据或任何设备标识；该文件不上传，随应用数据一起删除。默认镜像为清华 TUNA 与中科大两个预设，也允许用户自行填写镜像，但只接受 HTTPS 且不含账号、查询或片段。</p>
 <h3>4.3 当前发布配置下的实测结论</h3>
-<p>0.0.270 起，发布包声明 <code>ohos.permission.INTERNET</code> 并启用「下载并检查来源」入口。联网行为以真机实测记录为准：<code>validation/r-package-production-20261021/network-behaviour/result.json</code>（文件内的 <code>version</code> 字段标明测得的是哪个候选，<code>boundaries</code> 字段说明该结论只覆盖那一台设备与那一个候选）。同一套脚本在 0.0.270（未声明权限）上测得应用内 <code>curl::has_internet()</code> 为 <code>FALSE</code>，用来证明探针确实能区分「能联网」与「不能联网」两种状态。</p>
+<p>0.0.279 起，发布包声明 <code>ohos.permission.INTERNET</code> 并启用「下载并检查来源」入口。联网行为以真机实测记录为准：<code>validation/r-package-production-20261021/network-behaviour/result.json</code>（文件内的 <code>version</code> 字段标明测得的是哪个候选，<code>boundaries</code> 字段说明该结论只覆盖那一台设备与那一个候选）。同一套脚本在 0.0.279（未声明权限）上测得应用内 <code>curl::has_internet()</code> 为 <code>FALSE</code>，用来证明探针确实能区分「能联网」与「不能联网」两种状态。</p>
 <p>不使用下载入口时，RIDE 的全部功能（编辑器、控制台、对象浏览器、绘图、调试、项目、导出）都不需要网络。</p>
 <h3>五、第三方组件</h3>
 <p>1. <strong>GNU R 4.6.1 与预装 R 包</strong>：RIDE 随包分发 GNU R 4.6.1 本体和 499 条 R 包记录（顶层包与组件合并统计，去重后 499 个包名，详见 <code>third-party-licenses.md</code>）。这些是第三方开源软件，其许可证文本随包提供在应用内「第三方许可证」页面，可通过 <code>resources/rawfile/licenses/r-license-notices.json</code> 读取。</p>
@@ -131,6 +132,14 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 <li>联系邮箱：rideprivacy@163.com</li>
 <li>响应时限：15 个工作日内</li>
 </ul>
+<h3>十二、含 GPL 组件的源码获取</h3>
+<p>RIDE 内含以 GPL 许可发布的组件（GNU R 4.6.1、LLVM 19、curl + Mbed TLS 及 R 依赖库）。按 GPL 要求，对应源码随发布提供，长期公开可取：</p>
+<ul>
+<li>源码索引页：&lt;https://xpwang-stack.github.io/ride-privacy/source/&gt;</li>
+<li>本版本 Release：&lt;https://github.com/xpwang-stack/ride-privacy/releases/tag/source-0.0.300&gt;</li>
+<li>本版本我方源码直链：&lt;https://github.com/xpwang-stack/ride-privacy/releases/download/source-0.0.300/HarmonyR-IDE-0.0.300-source.zip&gt;</li>
+<li>旧版本（0.0.279 及更早）归档保留在同一仓库的既有 Release 中，不删除。</li>
+</ul>
 <p>---</p>
 <h2>附录 A：与 AGC「隐私标签」的对应建议（供填写时参考）</h2>
 <p>以下为依据本政策推出的建议填法，<strong>最终以 AGC 后台选项与持有人判断为准</strong>：</p>
@@ -152,7 +161,7 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 <tr><th>结论</th><th>证据</th></tr>
 <tr><td>只声明 <code>ohos.permission.INTERNET</code></td><td><code>entry/src/main/module.json5</code> 的 <code>requestPermissions</code> 仅一项；候选包 <code>module.json</code> 同；<code>scripts/verify-distribution-config.py</code> 与网络面检查在门禁中复核</td></tr>
 <tr><td>ArkTS 层无网络调用</td><td>对 106 个 <code>.ets</code> 检索 <code>@ohos.net.</code>、<code>@kit.NetworkKit</code>、<code>http.createHttp</code> 等，无匹配</td></tr>
-<tr><td>内置 R 的联网能力随权限变化</td><td>0.0.269（未声明权限）应用内 <code>curl::has_internet()</code> → <code>FALSE</code>（对照）；0.0.270 声明权限并启用下载后实测 <code>hasInternet=true</code>、权限数 1，记录见 <code>validation/r-package-production-20261021/network-behaviour/result.json</code></td></tr>
+<tr><td>内置 R 的联网能力随权限变化</td><td>0.0.269（未声明权限）应用内 <code>curl::has_internet()</code> → <code>FALSE</code>（对照）；0.0.279 声明权限并启用下载后实测 <code>hasInternet=true</code>、权限数 1，记录见 <code>validation/r-package-production-20261021/network-behaviour/result.json</code></td></tr>
 <tr><td>无账号/统计/广告 SDK</td><td>检索 <code>AccountKit</code>、<code>login</code>、<code>analytics</code>、<code>umeng</code> 等；<code>oh-package.json5</code> 依赖为空</td></tr>
 <tr><td>数据目录为应用私有 <code>filesDir</code></td><td><code>Console.ets</code>、<code>WorkspaceFiles.ets</code>、<code>ProjectFiles.ets</code>、<code>ResultFiles.ets</code> 构造参数均为 <code>context.filesDir</code></td></tr>
 <tr><td>偏好设置存本地</td><td><code>WorkbenchPreferences.ets</code>、<code>FeedbackDialog.ets</code> 使用 <code>preferences</code></td></tr>
@@ -163,8 +172,8 @@ th, td { border: 1px solid #d9dee7; padding: .4rem .55rem; text-align: left; ver
 </table>
 <p><strong>未核实（必须在定稿前处理）</strong>：</p>
 <p>1. ~~保留/删除联网能力~~——<strong>已决定保留（keep）并已实现</strong>：声明 INTERNET 权限、启用下载入口、政策与隐私标签同步更新。</p>
-<p>2. ~~无网络权限时 R 仓库下载是否真的失败~~ 已实测：应用内 <code>curl::has_internet()</code> 返回 <code>FALSE</code>（0.0.270 发布候选，2026-11-13）；启用权限后的可联网状态见 <code>network-behaviour</code> 证据。</p>
-<p>3. ~~应用内是否已有隐私政策弹窗与同意门禁~~——<strong>已实现</strong>（<code>PrivacyConsent.ets</code>：不同意 / 返回阅读 / 同意并继续 / 退出应用四个控件，<code>privacy-consent-v3</code> 记录同意状态（政策文本升版后重新征询）），并在 0.0.270 净安装上实测通过，详见 <code>docs/release/privacy-gate.md</code>。仍需持有人确认的是<strong>政策文本本身</strong>（第 8 项的占位符）。</p>
+<p>2. ~~无网络权限时 R 仓库下载是否真的失败~~ 已实测：应用内 <code>curl::has_internet()</code> 返回 <code>FALSE</code>（0.0.279 发布候选，2026-11-13）；启用权限后的可联网状态见 <code>network-behaviour</code> 证据。</p>
+<p>3. ~~应用内是否已有隐私政策弹窗与同意门禁~~——<strong>已实现</strong>（<code>PrivacyConsent.ets</code>：不同意 / 返回阅读 / 同意并继续 / 退出应用四个控件，<code>privacy-consent-v3</code> 记录同意状态（政策文本升版后重新征询）），并在 0.0.279 净安装上实测通过，详见 <code>docs/release/privacy-gate.md</code>。仍需持有人确认的是<strong>政策文本本身</strong>（第 8 项的占位符）。</p>
 <p>4. ~~运营主体、联系方式、政策 URL、数据保留期限等法律信息~~——<strong>已确认</strong>：运营主体 王枭鹏（个人开发者）、</p>
 <p>联系邮箱 rideprivacy@163.com、政策 URL &lt;https://xpwang-stack.github.io/ride-privacy/&gt;、生效日期 2026-11-20、</p>
 <p>数据保留期限为「保存在应用私有目录，直到你删除文件或卸载应用」。取值见 <code>docs/release/values.json</code>。</p>
